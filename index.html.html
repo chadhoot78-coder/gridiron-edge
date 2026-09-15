@@ -293,13 +293,16 @@ const payoutTable = (g, pHome, pickHome, spread) => { const st = stake(); if(!st
   const iH = implied(g.mlH), iA = implied(g.mlA);
   const valH = iH!=null && pHome!=null ? pHome - iH : null, valA = iA!=null && pHome!=null ? (1-pHome) - iA : null;
   const tag = v => v==null ? "" : v >= .03 ? ` <span class="grade W">+${Math.round(v*100)}% value</span>` : v <= -.03 ? ` <span class="grade L">${Math.round(v*100)}%</span>` : "";
-  const sp = spread==null ? "" : `<tr><td>Spread pick ${pickHome?g.home:g.away} ${(pickHome?spread:-spread)>0?"+":""}${(pickHome?spread:-spread).toFixed(1)} (-110)</td><td>${money(st*100/110)}</td><td></td></tr>`;
-  return `<table><tr><th>$${st} bet · profit if it hits</th><th>Profit</th><th>Book implied</th></tr>
+  const sp = spread==null ? "" : `<tr><td>Spread pick ${pickHome?g.home:g.away} ${(pickHome?spread:-spread)>0?"+":""}${(pickHome?spread:-spread).toFixed(1)} (-110)</td><td>${money(st*100/110)}</td><td>${pct(100/210)}</td><td></td></tr>`;
+  const t = evalTotal(g, +document.getElementById("w").value/100);
+  const be = pct(100/210);                                                   // -110 break-even
+  return `<table><tr><th>$${st} bet · profit if it hits</th><th>Profit</th><th>Book</th><th>Model</th></tr>
     ${sp}
-    <tr><td>${g.away} moneyline ${mlText(g.mlA)}${tag(valA)}</td><td>${money(profit(g.mlA,st))}</td><td>${iA==null?"—":pct(iA)}</td></tr>
-    <tr><td>${g.home} moneyline ${mlText(g.mlH)}${tag(valH)}</td><td>${money(profit(g.mlH,st))}</td><td>${iH==null?"—":pct(iH)}</td></tr>
-    ${g.ou!=null?`<tr><td>Over ${g.ou} (-110)${tagT(g, true)}</td><td>${money(st*100/110)}</td><td>52%</td></tr>
-    <tr><td>Under ${g.ou} (-110)${tagT(g, false)}</td><td>${money(st*100/110)}</td><td>52%</td></tr>`:""}</table>`; };
+    <tr><td>${g.away} moneyline ${mlText(g.mlA)}${tag(valA)}</td><td>${money(profit(g.mlA,st))}</td><td>${iA==null?"—":pct(iA)}</td><td>${pHome==null?"—":pct(1-pHome)}</td></tr>
+    <tr><td>${g.home} moneyline ${mlText(g.mlH)}${tag(valH)}</td><td>${money(profit(g.mlH,st))}</td><td>${iH==null?"—":pct(iH)}</td><td>${pHome==null?"—":pct(pHome)}</td></tr>
+    ${g.ou!=null?`<tr><td>Over ${g.ou} (-110)${tagT(g, true)}</td><td>${money(st*100/110)}</td><td>${be}</td><td>${t?pct(t.pOver):"—"}</td></tr>
+    <tr><td>Under ${g.ou} (-110)${tagT(g, false)}</td><td>${money(st*100/110)}</td><td>${be}</td><td>${t?pct(1-t.pOver):"—"}</td></tr>`:""}</table>
+  <div class="note">Book = the chance the price implies (its break-even). Model = this app's estimate. Value tags fire when Model beats Book by 3+ points.</div>`; };
 const tagT = (g, over) => { const t = evalTotal(g, +document.getElementById("w").value/100); if(!t) return "";
   const p = over ? t.pOver : 1-t.pOver, v = p - 100/210;          // vs. the -110 break-even (52.4%)
   return v >= .03 ? ` <span class="grade W">+${Math.round(v*100)}% value</span>` : v <= -.03 ? ` <span class="grade L">${Math.round(v*100)}%</span>` : ""; };
