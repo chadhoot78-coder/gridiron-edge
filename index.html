@@ -98,7 +98,10 @@
   .tablewrap{overflow-x:auto} .tablewrap table{min-width:520px}
   .alert{margin-top:14px;padding:10px 12px;border-radius:var(--r);background:#FFF3E9;border:1.5px solid var(--flag);font-size:14px} .alert b{color:var(--flag)}
   .best .day{display:none}
-  .disclaimer{margin-top:24px;font-size:13px;color:var(--ink-2)} .disclaimer a{color:var(--ink)}
+  .venmo-hdr{display:inline-block;margin-top:8px;font-family:"Barlow",sans-serif;font-size:14px;font-weight:700;letter-spacing:0;color:#fff;background:#008CFF;padding:5px 11px;border-radius:999px;text-decoration:none}
+  .venmo-hdr::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;margin-right:7px;vertical-align:1px}
+  .venmo{margin-top:24px;font-size:14px;font-weight:600} .venmo a{color:var(--turf-deep);text-decoration:none;border-bottom:2px solid var(--turf)}
+  .disclaimer{margin-top:0;font-size:13px;color:var(--ink-2)} .disclaimer a{color:var(--ink)}
   .method{margin-top:28px;padding:14px;border:1.5px solid var(--line);border-radius:var(--r);font-size:14px;background:var(--card)}
   .method h2{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:700;margin-bottom:6px}
   .method p{margin-bottom:8px;color:var(--ink-2)}
@@ -109,7 +112,8 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>Gridiron Edge<small><span id="wk">Week 2</span> · win probability vs. the spread</small></h1>
+    <h1>Gridiron Edge<small><span id="wk">Week 2</span> · win probability vs. the spread</small>
+      <a class="venmo-hdr" href="https://venmo.com/u/chadhoot1978" target="_blank" rel="noopener">Venmo @chadhoot1978</a></h1>
     <div class="status" id="status" aria-live="polite">Loading Week 1 results…</div>
   </header>
 
@@ -143,6 +147,7 @@
   <section class="method" id="steam"></section>
   <section class="method" id="movers"></section>
 
+  <p class="venmo">Settle up: <a href="https://venmo.com/u/chadhoot1978" target="_blank" rel="noopener">Venmo @chadhoot1978</a></p>
   <p class="disclaimer">For entertainment. Not betting advice — this is a one-file hobby model, not an edge. If gambling stops being fun: <a href="tel:1-800-426-2537">1-800-GAMBLER</a>.</p>
 
   <section class="method" id="learn"></section>
@@ -901,6 +906,7 @@ async function sharePicks(recap = false){
     c.fillStyle = x.strong ? "#D9532B" : "#5B6778"; c.font = "700 32px 'Barlow Condensed', Impact, sans-serif"; c.fillText(x.cover, 780, y);
     if(x.res){ c.fillStyle = x.res==="✓" ? "#2E7D4F" : x.res==="✗" ? "#D9532B" : "#5B6778"; c.font = "700 30px Barlow, sans-serif"; c.fillText(x.res, 1000, y); } });
   c.fillStyle = "#5B6778"; c.font = "400 22px Barlow, sans-serif"; c.fillText(`Bold = cover chance ≥ ${Math.round(PLAY_MIN*100)}%. Model rates ${week1.filter(g=>g.final).length} games so far. Not betting advice.`, 48, H-36);
+  c.fillStyle = "#1F5A38"; c.font = "700 26px Barlow, sans-serif"; c.textAlign = "right"; c.fillText("Venmo @chadhoot1978", W-48, H-36); c.textAlign = "left";
   const blob = await new Promise(r => cv.toBlob(r, "image/png"));
   const file = new File([blob], `gridiron-edge-week${CUR}${recap?"-recap":""}.png`, {type:"image/png"});
   try{
