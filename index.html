@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Gridiron Edge — Week 2</title>
+<title>Chat GWT — Week 2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -61,7 +61,6 @@
   .bar .home{position:absolute;right:0;top:0;bottom:0;background:var(--turf);border-radius:0 3px 3px 0}
   .bar .tick{position:absolute;top:-5px;bottom:-5px;width:3px;background:var(--ink);transform:translateX(-50%)}
   .bar .tick::after{content:"";position:absolute;left:50%;top:-6px;width:0;height:0;border:5px solid transparent;border-top-color:var(--ink);transform:translateX(-50%)}
-  .tv{font-size:12px;color:var(--ink-2);margin:-2px 0 8px} .tv b{color:var(--ink);font-weight:600}
   .score{display:flex;justify-content:space-between;align-items:baseline;font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:34px;line-height:1;margin:-2px 0 8px;color:var(--ink-2)}
   .score.live{color:var(--ink)}
   .score .clock{font-family:"Barlow",sans-serif;font-weight:600;font-size:12px;color:var(--flag);letter-spacing:.04em;text-transform:uppercase}
@@ -70,9 +69,6 @@
   .legend{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);margin-top:9px}
   .legend b{color:var(--ink);font-weight:600}
   .legend span:nth-child(2){text-align:center}
-  #teasers tr.wong td{background:#FFF7EA} #teasers tr.on td{background:#E3F0E8} #teasers label{cursor:pointer} #teasers input[type=checkbox]{width:18px;height:18px;vertical-align:middle;accent-color:var(--turf)}
-  .spots{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px} .spots span{font-size:11px;padding:2px 7px;border-radius:3px;background:#ECEBE3;color:var(--ink-2)}
-  .spots.steam span{background:#E8EEF6;color:var(--ink);font-weight:600}
   .move{font-size:11px;font-weight:600;padding:1px 5px;border-radius:3px;margin-left:4px;white-space:nowrap}
   .move.with{color:var(--turf-deep);background:#E3F0E8} .move.against{color:var(--flag);background:#F8E4DC}
   .lean{margin-top:8px;font-size:14px;font-weight:600;color:var(--flag)}
@@ -98,10 +94,7 @@
   .tablewrap{overflow-x:auto} .tablewrap table{min-width:520px}
   .alert{margin-top:14px;padding:10px 12px;border-radius:var(--r);background:#FFF3E9;border:1.5px solid var(--flag);font-size:14px} .alert b{color:var(--flag)}
   .best .day{display:none}
-  .venmo-hdr{display:inline-block;margin-top:8px;font-family:"Barlow",sans-serif;font-size:14px;font-weight:700;letter-spacing:0;color:#fff;background:#008CFF;padding:5px 11px;border-radius:999px;text-decoration:none}
-  .venmo-hdr::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;margin-right:7px;vertical-align:1px}
-  .venmo{margin-top:24px;font-size:14px;font-weight:600} .venmo a{color:var(--turf-deep);text-decoration:none;border-bottom:2px solid var(--turf)}
-  .disclaimer{margin-top:0;font-size:13px;color:var(--ink-2)} .disclaimer a{color:var(--ink)}
+  .disclaimer{margin-top:24px;font-size:13px;color:var(--ink-2)} .disclaimer a{color:var(--ink)}
   .method{margin-top:28px;padding:14px;border:1.5px solid var(--line);border-radius:var(--r);font-size:14px;background:var(--card)}
   .method h2{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:700;margin-bottom:6px}
   .method p{margin-bottom:8px;color:var(--ink-2)}
@@ -112,8 +105,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>Gridiron Edge<small><span id="wk">Week 2</span> · win probability vs. the spread</small>
-      <a class="venmo-hdr" href="https://venmo.com/u/chadhoot1978" target="_blank" rel="noopener">Venmo @chadhoot1978</a></h1>
+    <h1>Gridiron Edge<small><span id="wk">Week 2</span> · win probability vs. the spread</small></h1>
     <div class="status" id="status" aria-live="polite">Loading Week 1 results…</div>
   </header>
 
@@ -143,12 +135,9 @@
   <div id="games"></div>
 
   <section class="method" id="ledger"></section>
-  <section class="method" id="teasers"></section>
-  <section class="method" id="steam"></section>
   <section class="method" id="movers"></section>
 
-  <p class="venmo">Settle up: <a href="https://venmo.com/u/chadhoot1978" target="_blank" rel="noopener">Venmo @chadhoot1978</a></p>
-  <p class="disclaimer">For entertainment. Not betting advice — this is a one-file hobby model, not an edge. If gambling stops being fun: <a href="tel:1-800-426-2537">1-800-GAMBLER</a>.</p>
+  <p class="disclaimer"><span style="float:right;opacity:.6">v1.3</span>For entertainment. Not betting advice — this is a one-file hobby model, not an edge. If gambling stops being fun: <a href="tel:1-800-426-2537">1-800-GAMBLER</a>.</p>
 
   <section class="method" id="learn"></section>
 
@@ -156,9 +145,6 @@
     <h2>How the number is built</h2>
     <p><b>Team rating.</b> Every game played this season counts: point margin (home-field removed), yards-per-play margin, and turnover margin, adjusted for who the opponent was. Ratings are shrunk toward average when the sample is small — 70% after one game, about 40% after four, 20% after ten — so the stats earn trust as the season goes.</p>
     <p><b>Rest &amp; injuries.</b> The model line gets ±0.3 points per day of rest advantage (short weeks, byes), and a penalty for players listed Out or Doubtful on ESPN's injury report — about 4 points for a quarterback, half a point for other starters, capped at 6. These only touch the stats side; the market already prices them.</p>
-    <p><b>Situational spots.</b> Small nudges to the stats side, each shown on the card: sandwich spot (weak opponent between two top-8 teams, −1), lookahead to a top-5 team (−0.5), letdown after an upset or a win over a top team (−0.5), blowout regression (won by 21+, −0.5) and bounce-back (lost by 21+, +0.5), divisional underdog (+0.5). Capped at ±2 per team. These are well-known angles with modest real effects; the market knows them too, which is why they stay small.</p>
-    <p><b>Teasers.</b> Each leg is priced at the teased line with the same key-number curve, and the combination is the product of the legs (independent games). Wong legs — dogs +1.5 to +2.5 and favorites −7.5 to −8.5 — are highlighted because a 6-point tease carries them through 3, 6 and 7, where roughly a quarter of all NFL margins land.</p>
-    <p><b>Steam.</b> The line is logged every time the app loads. A move of a full point or more from the opener is steam; it's tagged fast (1.5+ within 24h), late (inside a day of kickoff), and whether it crossed 3 or 7. Steam doesn't change the model line, but each pick is marked with or against it.</p>
     <p><b>Bet log &amp; Kelly.</b> Log a play to track it. Stakes suggest half-Kelly from the model's probability and the price against your bankroll — half because the model's probabilities are noisier than it thinks. Closing-line value is recorded when the game kicks off.</p>
     <p><b>Totals.</b> Each team's points scored and allowed so far, adjusted for the opponents they faced and shrunk toward the league average of 22.5 per team on the same trust curve as the ratings, give a projected total. It blends with the market total at the same weight as the spread, and the over/under probability comes from the same 13.5-point curve. Break-even at -110 is 52.4%, so a value tag on a total means the model clears that by 3+ points.</p>
     <p><b>Learning.</b> After each completed week the app replays the season: for every past week it rebuilds ratings from only the weeks before, predicts that week, and scores each stats/market weight and shrink speed against the real margins. The <b>Auto</b> button uses whatever backtested best. It needs at least one week of games after Week 1 to have anything to learn from.</p>
@@ -177,17 +163,20 @@ const BREAK_EVEN = 100/210, PLAY_MIN = 0.545;       // -110 break-even is 52.4%;
 const store = { get(k,d){ try{ const v = localStorage.getItem("ge:"+k); return v==null ? d : JSON.parse(v); }catch(_){ return d; } },
                 set(k,v){ try{ localStorage.setItem("ge:"+k, JSON.stringify(v)); }catch(_){} } };
 let K_SHRINK = store.get("k", 2.33);                              // games-played shrink: n/(n+K) → 30% at 1 game, 63% at 4, 81% at 10
-let openers = store.get("openers", {}), graded = store.get("graded", {}), boxCache = store.get("box", {});
-let bets = store.get("bets", []), lastSeen = store.get("lastSeen", {}), lineHist = store.get("lineHist", {}), injuries = {}, teamIds = {}, bestMode = false, backoff = 1;
+let openers = store.get("openers", {}), graded = store.get("graded", {}), boxCache = store.get("box", {}), picks = store.get("picks", {});   // picks: side + line frozen at kickoff
+let bets = store.get("bets", []), lastSeen = store.get("lastSeen", {}), lines = store.get("lines", {}), injuries = {}, teamIds = {}, bestMode = false, backoff = 1;
 const saveBets = () => store.set("bets", bets);
 const gkey = g => `${YEAR}-w${g.week ?? CUR}-${g.away}@${g.home}`;
-function registerOpen(g){ const k = gkey(g); if(openers[k]==null && g.spread!=null){ openers[k] = g.spread; store.set("openers", openers); } g.open = openers[k] ?? null;
-  if(g.spread != null){ const h = lineHist[k] ||= []; if(!h.length || h[h.length-1].s !== g.spread){ h.push({t: Date.now(), s: g.spread}); if(h.length > 40) h.splice(0, h.length-40); store.set("lineHist", lineHist); } } }
+function registerOpen(g){ const k = gkey(g); if(openers[k]==null && g.spread!=null){ openers[k] = g.spread; store.set("openers", openers); } g.open = openers[k] ?? null; }
+/* ESPN removes the odds from the scoreboard once a game kicks off. Keep the last line seen for every game so finished games
+   still grade against their closing number after a fresh page load — the opener alone isn't enough for that. */
+function rememberLines(g){ const k = gkey(g), L = lines[k] || {}; let changed = false;
+  for(const f of ["spread","ou","mlH","mlA"]){ if(g[f] != null && g[f] !== L[f]){ L[f] = g[f]; changed = true; } }
+  if(changed){ lines[k] = L; store.set("lines", lines); }
+  for(const f of ["spread","ou","mlH","mlA"]) if(g[f] == null && L[f] != null) g[f] = L[f];
+  if(g.spread == null && openers[k] != null) g.spread = openers[k]; }   // older visits only saved the opener — better than no line
 const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/nfl";
 const NAMES = {ARI:"Cardinals",ATL:"Falcons",BAL:"Ravens",BUF:"Bills",CAR:"Panthers",CHI:"Bears",CIN:"Bengals",CLE:"Browns",DAL:"Cowboys",DEN:"Broncos",DET:"Lions",GB:"Packers",HOU:"Texans",IND:"Colts",JAX:"Jaguars",KC:"Chiefs",LAC:"Chargers",LAR:"Rams",LV:"Raiders",MIA:"Dolphins",MIN:"Vikings",NE:"Patriots",NO:"Saints",NYG:"Giants",NYJ:"Jets",PHI:"Eagles",PIT:"Steelers",SEA:"Seahawks",SF:"49ers",TB:"Buccaneers",TEN:"Titans",WAS:"Commanders"};
-const DIV = {AFCE:["BUF","MIA","NE","NYJ"],AFCN:["BAL","CIN","CLE","PIT"],AFCS:["HOU","IND","JAX","TEN"],AFCW:["DEN","KC","LAC","LV"],NFCE:["DAL","NYG","PHI","WAS"],NFCN:["CHI","DET","GB","MIN"],NFCS:["ATL","CAR","NO","TB"],NFCW:["ARI","LAR","SEA","SF"]};
-const divOf = t => Object.keys(DIV).find(d => DIV[d].includes(t));
-let nextOpp = {};                                   // team -> next week's opponent (from ESPN when online)
 const norm = a => ({JAC:"JAX",LA:"LAR",WSH:"WAS"}[a] || a);
 
 /* ---------- fallback data (Week 1 finals as of Mon Sep 14; KC–DEN pending) ---------- */
@@ -207,11 +196,10 @@ const FALLBACK_W2 = [
   ["ARI","SEA","Sun Sep 20","3:25 PM",5.5,43.5,210,-258],["SF","MIA","Sun Sep 20","3:25 PM",-12.5,46.5,-950,625],["DAL","WAS","Sun Sep 20","3:25 PM",-4.5,50.5,-225,185],
   ["KC","IND","Sun Sep 20","7:20 PM",-6.5,48.5,-290,235],
   ["LAR","NYG","Mon Sep 21","7:15 PM",-7.5,49.5,-375,295]
-].map(([h,a,d,t,sp,ou,mlH,mlA]) => ({home:h,away:a,day:d,time:t,spread:sp,ou,mlH,mlA,week:2,
-  tv: d.startsWith("Thu") ? "Prime Video" : d.startsWith("Mon") ? "ESPN" : t.startsWith("7:") ? "NBC" : "CBS/FOX"}));   // DraftKings openers (spread, total, moneylines), Sep 13
+].map(([h,a,d,t,sp,ou,mlH,mlA]) => ({home:h,away:a,day:d,time:t,spread:sp,ou,mlH,mlA,week:2}));   // DraftKings openers (spread, total, moneylines), Sep 13
 
 /* ---------- state ---------- */
-let week1 = FALLBACK_W1, week2 = FALLBACK_W2, ratings = {}, overrides = {}, live = false;
+let week1 = FALLBACK_W1, week2 = FALLBACK_W2, ratings = {}, overrides = store.get("overrides", {}), live = false;   // typed-in spreads survive a reload
 
 /* ---------- math ---------- */
 /* NFL margins are discrete and pile up on 3 and 7. Build an integer distribution from a normal curve, then
@@ -221,9 +209,7 @@ const distCache = {};
 function margDist(mu){                              // -> Map(int -> p) for home margin with expected value mu
   const k = mu.toFixed(1); if(distCache[k]) return distCache[k];
   const pmf = new Map(); let tot = 0;
-  for(let m = -70; m <= 70; m++){ const z = (m - mu)/SD; const k = KEY[Math.abs(m)] ?? 1;
-    const favSide = mu === 0 || Math.sign(m) === Math.sign(mu) || m === 0;          // key numbers pile up on the favorite's side of the line
-    let p = Math.exp(-z*z/2) * (favSide ? k : 1 + (k-1)*0.4); pmf.set(m, p); tot += p; }
+  for(let m = -70; m <= 70; m++){ const z = (m - mu)/SD; let p = Math.exp(-z*z/2) * (KEY[Math.abs(m)] ?? 1); pmf.set(m, p); tot += p; }
   for(const [m,p] of pmf) pmf.set(m, p/tot);
   return distCache[k] = pmf;
 }
@@ -292,56 +278,6 @@ function backtest(){
   if(document.getElementById("w").dataset.auto === "1" && ready) document.getElementById("w").value = Math.round(auto*100);
   renderLearn();
 }
-function renderSteam(){
-  const box = document.getElementById("steam"); if(!box) return;
-  const rows = week2.map(g => ({g, st: steam(g), e: evaluate(g, +document.getElementById("w").value/100)})).filter(x => x.st).sort((a,b) => b.st.strength - a.st.strength);
-  box.innerHTML = `<h2>Steam board</h2>` + (rows.length
-    ? `<p>Lines that have moved a full point or more since the app first saw them, strongest first. Fast = 1.5+ in under 24h (the signature of a big early bet); Late = within a day of kickoff; crossing 3 or 7 costs real money and rarely happens on public action alone.</p>
-       <div class="tablewrap"><table><tr><th>Game</th><th>Move</th><th>Type</th><th>vs. your pick</th></tr>${rows.map(({g,st,e}) => `<tr><td><b>${g.away} @ ${g.home}</b></td><td>${spreadText(g,g.open)} → ${spreadText(g,g.spread)} (${st.move>0?"+":""}${st.move.toFixed(1)} toward ${st.toward})</td><td>${st.fast?"fast":st.late?"late":"steady"}${st.crossed?" · key #":""}</td><td>${e.pickHome==null?"—":e.steamWith?`<span class="grade W">with</span>`:`<span class="grade L">against</span>`}</td></tr>`).join("")}</table></div>
-       <p class="note">The app can't see who bet (no free feed shows public vs. sharp money), so it reads steam from the number itself. It doesn't change the model line — the market already moved — but a pick that has sharp money on the other side deserves a second look.</p>`
-    : `<p>No steam yet. The app records the line every time it loads; once a game moves a full point or more from its opener it shows up here with how fast it moved and whether it crossed 3 or 7. Open the app a few times through the week so it has history to work with.</p>`);
-}
-/* ---------- teasers ---------- */
-const TEASE = 6; let teaseLegs = new Set(); const TEASE_PRICE = store.get("teasePrice", {2:-120, 3:160, 4:250});
-const isWong = (side, line) => (side==="dog" && line >= 1.5 && line <= 2.5) || (side==="fav" && line <= -7.5 && line >= -8.5);
-function teaserLegs(w){
-  const legs = [];
-  for(const g of week2){ if(g.spread == null || g.final || g.state==="in") continue;
-    const mu = evaluate(g, w).blend, mkt = -g.spread;
-    // home leg: home gets +6
-    const hLine = g.spread, hT = g.spread + TEASE;
-    legs.push({id:gkey(g)+"|H", g, team:g.home, opp:g.away, line:hLine, teased:hT, side: hLine>0?"dog":"fav", p: coverP(mu, hT), pm: coverP(mkt, hT)});
-    const aLine = -g.spread, aT = aLine + TEASE;
-    legs.push({id:gkey(g)+"|A", g, team:g.away, opp:g.home, line:aLine, teased:aT, side: aLine>0?"dog":"fav", p: 1 - coverP(mu, g.spread - TEASE), pm: 1 - coverP(mkt, g.spread - TEASE)});
-  }
-  legs.forEach(l => { l.wong = isWong(l.side, l.line);
-    // key numbers the tease passes through, in the direction it moves (dog: line -> teased upward; fav: downward)
-    l.keys = [3,6,7].filter(k => l.side==="dog" ? (l.line < k && l.teased >= k) : (l.line <= -k && l.teased > -k));
-    l.zero = l.side==="fav" && l.teased > 0;                      // favorite teased through zero (weak)
-    // empirical adjustment: history says legs through both 3 and 7 hit ~73-75%, ordinary legs ~68-70%, through-zero legs worse
-    const adj = (l.keys.includes(3) && l.keys.includes(7)) ? 0.045 : (l.keys.includes(3) || l.keys.includes(7)) ? 0.015 : 0;
-    l.adj = adj - (l.zero ? 0.02 : 0);
-    l.p = Math.min(0.97, Math.max(0.03, l.p + l.adj)); l.pm = Math.min(0.97, Math.max(0.03, l.pm + l.adj)); });
-  return legs.sort((a,b) => b.p - a.p);
-}
-const lineStr = (t, x) => `${t} ${x>0?"+":""}${x.toFixed(1)}`;
-function renderTeasers(){
-  const box = document.getElementById("teasers"); if(!box) return;
-  const w = +document.getElementById("w").value/100, legs = teaserLegs(w), st = stake() || 100;
-  const chosen = legs.filter(l => teaseLegs.has(l.id)); const n = chosen.length;
-  const price = TEASE_PRICE[n] ?? null, pAll = chosen.reduce((a,l) => a*l.p, 1), pMktAll = chosen.reduce((a,l) => a*l.pm, 1);
-  const be = price==null ? null : implied(price), evv = price==null ? null : pAll*profit(price, st) - (1-pAll)*st;
-  const sameGame = new Set(chosen.map(l => l.g)).size < n;
-  const row = l => { const on = teaseLegs.has(l.id), blockedGame = !on && chosen.some(c => c.g === l.g);
-    return `<tr class="${l.wong?"wong":""}${on?" on":""}"><td><label><input type="checkbox" data-leg="${l.id}" ${on?"checked":""} ${blockedGame||(!on&&n>=4)?"disabled":""}> <b>${lineStr(l.team, l.line)}</b> → ${lineStr(l.team, l.teased)}</label><div class="note">vs ${l.opp}${l.wong?" · <b>Wong</b>":""}${l.keys.length?` · through ${l.keys.join(", ")}`:""}${l.zero?" · through 0":""}${l.adj?` · hist ${l.adj>0?"+":""}${Math.round(l.adj*100)}%`:""}</div></td><td>${pct(l.p)}</td><td>${pct(l.pm)}</td></tr>`; };
-  const combo = n ? `<div class="ledger-stats"><span>${n} leg${n>1?"s":""}</span><span>Hits <b>${pct(pAll)}</b> (market-only ${pct(pMktAll)})</span>${price!=null?`<span>Price <b>${mlText(price)}</b> · needs ${pct(be)}</span><span>EV on $${st}: <b class="${evv>=0?"pos":"neg"}">${evv>=0?"+":"−"}$${Math.abs(evv).toFixed(2)}</b></span><span>Pays <b>${money(profit(price,st))}</b></span>`:`<span>${n<2?"pick at least 2 legs":"no price set for "+n+" legs"}</span>`}${sameGame?`<span class="neg">two sides of one game can't be teased together</span>`:""}</div>` : `<p class="note">Check 2–4 legs to price a teaser. Every leg has to win. The best legs cross the most key numbers: a dog at +1.5 to +2.5 teased to +7.5/+8.5 goes through 3, 6 and 7; a favorite at −7.5/−8.5 teased to −1.5/−2.5 does the same. Highlighted rows are those Wong legs.</p>`;
-  box.innerHTML = `<h2>Teasers (${TEASE} pts)</h2>${combo}
-    <div class="seg" style="margin:8px 0"><label class="stake">2-team <input type="number" data-tp="2" value="${TEASE_PRICE[2]}" style="width:66px"></label><label class="stake">3-team <input type="number" data-tp="3" value="${TEASE_PRICE[3]}" style="width:66px"></label><label class="stake">4-team <input type="number" data-tp="4" value="${TEASE_PRICE[4]}" style="width:66px"></label></div>
-    <div class="tablewrap"><table><tr><th>Leg</th><th>Model</th><th>Market</th></tr>${legs.map(row).join("")}</table></div>
-    <p class="note">Model = chance the teased line covers using the app's blend and key-number curve; Market = same math from the current line alone (the pure Wong read). Both include a small historical adjustment ("hist"): +4.5% for legs that pass through both 3 and 7, +1.5% for one of them, −2% for favorites teased through zero — the curve alone can't see why Wong legs have outperformed. A 2-team at −120 needs each leg near 74%; at −110, 72.4%. Books know this: many shade Wong-eligible lines or bar teasing through 3 and 7 — check your book's rules. Totals legs are left out; 6 points on a total is worth far less.</p>`;
-  box.querySelectorAll("[data-leg]").forEach(cb => cb.addEventListener("change", () => { cb.checked ? teaseLegs.add(cb.dataset.leg) : teaseLegs.delete(cb.dataset.leg); renderTeasers(); }));
-  box.querySelectorAll("[data-tp]").forEach(inp => inp.addEventListener("input", () => { const v = parseInt(inp.value); if(!isNaN(v) && v!==0){ TEASE_PRICE[inp.dataset.tp] = v; store.set("teasePrice", TEASE_PRICE); renderTeasers(); const again = box.querySelector(`[data-tp="${inp.dataset.tp}"]`); if(again) again.focus(); } }));
-}
 function renderMovers(){
   const box = document.getElementById("movers"); if(!box) return;
   const teams = Object.keys(ratings); if(!teams.length){ box.innerHTML = ""; return; }
@@ -409,57 +345,25 @@ function injAdj(t){                                  // penalty in points for li
     pts += w; if(out || i.pos==="QB") notes.push(`${i.name} (${i.pos}) ${i.status}`); }
   return {pts: Math.min(6, pts), notes};
 }
-/* ---------- situational spots (small, capped nudges to the stats side) ---------- */
-const rankOf = t => { const all = Object.entries(ratings).sort((a,b)=>b[1]-a[1]).map(x=>x[0]); const i = all.indexOf(t); return i<0 ? 16 : i+1; };
-const lastGame = t => { const gs = week1.filter(x => x.final && (x.home===t || x.away===t)).sort((a,b)=>(a.ts||0)-(b.ts||0)); return gs[gs.length-1] || null; };
-function spotsFor(t, g){                             // -> {pts (from t's point of view), tags:[]}
-  const tags = []; let pts = 0;
-  const opp = g.home===t ? g.away : g.home, oppRank = rankOf(opp), n = Object.keys(ratings).length;
-  const lg = lastGame(t), next = nextOpp[t]; const strong = r => r <= 8, weak = r => r >= 20;
-  const prevOpp = lg ? (lg.home===t ? lg.away : lg.home) : null;
-  if(n >= 24 && lg && next && strong(rankOf(prevOpp)) && strong(rankOf(next)) && weak(oppRank)){ pts -= 1.0; tags.push(`sandwich spot: ${prevOpp} last week, ${next} next (−1.0)`); }
-  else if(n >= 24 && next && rankOf(next) <= 5 && weak(oppRank)){ pts -= 0.5; tags.push(`lookahead to ${next} (−0.5)`); }
-  if(lg && lg.spread != null){ const me = lg.home===t ? lg.hs : lg.as, them = lg.home===t ? lg.as : lg.hs, mySpread = lg.home===t ? lg.spread : -lg.spread;
-    if(me > them && mySpread >= 7){ pts -= 0.5; tags.push(`letdown after upset of ${prevOpp} as +${mySpread} dog (−0.5)`); }
-    else if(me > them && n >= 24 && rankOf(prevOpp) <= 8 && weak(oppRank)){ pts -= 0.5; tags.push(`letdown after beating ${prevOpp} (−0.5)`); } }
-  if(lg){ const me = lg.home===t ? lg.hs : lg.as, them = lg.home===t ? lg.as : lg.hs;
-    if(me - them >= 21){ pts -= 0.5; tags.push(`blowout regression, won by ${me-them} (−0.5)`); }
-    if(them - me >= 21){ pts += 0.5; tags.push(`bounce-back after ${them-me}-pt loss (+0.5)`); } }
-  if(divOf(t) && divOf(t) === divOf(opp)){ const sp = g.spread == null ? null : (g.home===t ? g.spread : -g.spread);
-    if(sp != null && sp > 0){ pts += 0.5; tags.push(`divisional underdog (+0.5)`); } }
-  return {pts: Math.max(-2, Math.min(2, pts)), tags};
-}
-/* ---------- steam: size, speed and key numbers of the line move ---------- */
-function steam(g){
-  const h = lineHist[gkey(g)] || []; if(h.length < 2 || g.open == null || g.spread == null) return null;
-  const move = g.spread - g.open; if(Math.abs(move) < 1) return null;                 // a full point or more
-  const toward = move < 0 ? g.home : g.away;
-  const first = h[0].t, last = h[h.length-1].t, hrs = (last - first)/36e5, toKick = g.ts ? (g.ts - last)/36e5 : null;
-  const crossed = [3,7].some(k => (Math.abs(g.open) < k) !== (Math.abs(g.spread) < k) || (Math.abs(g.open) === k) !== (Math.abs(g.spread) === k));
-  const fast = hrs <= 24 && Math.abs(move) >= 1.5, late = toKick != null && toKick <= 24 && Math.abs(move) >= 1;
-  const strength = Math.abs(move) + (crossed ? 1 : 0) + (fast ? 0.5 : 0) + (late ? 0.5 : 0);
-  return {toward, move, crossed, fast, late, strength, label: `${fast?"Fast":late?"Late":"Steady"} steam → ${toward}: opened ${spreadText(g,g.open)}, now ${spreadText(g,g.spread)}${crossed?" (crossed 3/7)":""}`};
-}
 function evaluate(g, w){
   const rh = ratings[g.home] ?? 0, ra = ratings[g.away] ?? 0;
   const rest = restAdj(g), ih = injAdj(g.home), ia = injAdj(g.away);
-  const sh = spotsFor(g.home, g), sa = spotsFor(g.away, g);
-  const modelLine = rh - ra + HFA + rest.pts - ih.pts + ia.pts + sh.pts - sa.pts;   // stats, rest, injuries, situational spots
-  const spread = overrides[g.home+g.away] ?? g.spread; // home-relative, negative = home favored
+  const modelLine = rh - ra + HFA + rest.pts - ih.pts + ia.pts;   // expected home margin from stats, rest, injuries
+  const lk = g.final ? picks[gkey(g)] : null;                     // the pick this phone locked before kickoff, if it saw the game then
+  const spread = lk ? lk.sp : (overrides[g.home+g.away] ?? g.spread); // home-relative, negative = home favored
   const market = spread == null ? null : -spread;    // market expected home margin
   const blend = market == null ? modelLine : w*modelLine + (1-w)*market;
   const pHome = winP(blend);
   const pMkt  = market == null ? null : winP(market);
   const edge  = market == null ? 0 : blend - market;
-  const pickHome = market == null ? null : edge >= 0;                 // side the blend favors vs the number
+  const pickHome = lk ? lk.ph : market == null ? null : edge >= 0;    // side the blend favors vs the number (or the locked side once final)
   let ats = null;                                                      // "W" | "L" | "P" once the game is final
   if(pickHome != null && g.final){ const cover = (g.hs - g.as) + spread; ats = cover === 0 ? "P" : (cover > 0) === pickHome ? "W" : "L"; }
   const move = (g.open!=null && spread!=null) ? spread - g.open : 0;   // home-relative; negative = money on home
   const pCoverHome = spread == null ? null : coverP(blend, spread);
   const pCover = pickHome == null ? null : (pickHome ? pCoverHome : 1 - pCoverHome);   // chance the pick covers
   const evPer100 = pCover == null ? null : pCover*100*100/110 - (1-pCover)*100;        // $ EV per $100 at -110
-  const st = steam(g); const steamWith = st && pickHome != null ? ((st.toward === g.home) === pickHome) : null;
-  return {modelLine, spread, market, blend, pHome, pMkt, edge, pickHome, ats, move, pCover, evPer100, rest, ih, ia, sh, sa, st, steamWith, hasRating: g.home in ratings && g.away in ratings};
+  return {modelLine, spread, market, blend, pHome, pMkt, edge, pickHome, ats, move, pCover, evPer100, rest, ih, ia, locked: !!lk, hasRating: g.home in ratings && g.away in ratings};
 }
 
 /* ---------- render ---------- */
@@ -550,6 +454,14 @@ function render(){
 
   const open = new Set([...document.querySelectorAll(".game.open")].map(e=>e.dataset.key));
   const rec = {W:0,L:0,P:0};
+  let pickDirty = false;
+  for(const g of week2){                           // whole week, whatever filter or Best-bets view is on
+    const e = evaluate(g, w), k = gkey(g);
+    if(!g.final && g.state !== "in" && e.pickHome != null && e.spread != null){   // still pre-kickoff: (re)freeze the pick and the line it was made against
+      const cur = picks[k]; if(!cur || cur.ph !== e.pickHome || cur.sp !== e.spread){ picks[k] = {ph: e.pickHome, sp: e.spread, w: Math.round(w*100)}; pickDirty = true; } }
+    if(e.ats){ rec[e.ats]++; if(graded[k] !== e.ats){ graded[k] = e.ats; store.set("graded", graded); } }
+  }
+  if(pickDirty) store.set("picks", picks);
   const wrap = document.getElementById("games"); wrap.innerHTML = "";
   for(const g of week1.filter(x=>!x.final)){
     const h = document.createElement("div"); h.className="day"; h.innerHTML = `Week ${g.week ?? CUR-1} · ${g.day} <span>${g.state==="in"?"in progress":g.time}</span>`; wrap.appendChild(h);
@@ -582,7 +494,7 @@ function render(){
         <div class="spreadrow"><label for="sp-w1${g.home}${g.away}">${g.home} spread</label>
           <input id="sp-w1${g.home}${g.away}" type="number" step="0.5" inputmode="decimal" value="${sp ?? ""}"><span class="note">negative = ${g.home} favored</span></div>
       </div>`;
-    bindCard(card, ev => { const k="w1"+g.home+g.away, v=ev.target.value; if(v==="") delete overrides[k]; else overrides[k]=+v; });
+    bindCard(card, ev => { const k="w1"+g.home+g.away, v=ev.target.value; if(v==="") delete overrides[k]; else overrides[k]=+v; store.set("overrides", overrides); });
     wrap.appendChild(card);
   }
   let lastDay = null;
@@ -594,24 +506,19 @@ function render(){
   for(const g of slate){
     if(g.day !== lastDay){ const h = document.createElement("div"); h.className="day"; h.innerHTML = `${lastDay===null?`Week ${CUR} · `:""}${g.day}`; wrap.appendChild(h); lastDay = g.day; }
     const e = evaluate(g, w);
-    if(e.ats){ rec[e.ats]++; const gk = gkey(g); if(graded[gk] !== e.ats){ graded[gk] = e.ats; store.set("graded", graded); } }
     const key = g.home+g.away;
     const fav = e.pHome >= .5 ? g.home : g.away;
     const favP = e.pHome >= .5 ? e.pHome : 1-e.pHome;
-    let lean = `<div class="lean none">Enter a spread below to compare</div>`;
+    let lean = `<div class="lean none">${g.final ? "Not graded — ESPN dropped the line at kickoff and this app never saw it. Type the closing spread below and it will grade." : "Enter a spread below to compare"}</div>`;
     if(e.market != null){
       const side = e.pickHome ? g.home : g.away;
       const num  = e.pickHome ? e.spread : -e.spread;
       const strong = e.pCover >= PLAY_MIN;
-      let grade = e.ats ? ` <span class="grade ${e.ats}">${e.ats==="P"?"PUSH":e.ats==="W"?"WIN":"LOSS"} · ${g.away} ${g.as}–${g.hs} ${g.home}</span>` : "";
+      let grade = e.ats ? ` <span class="grade ${e.ats}">${e.ats==="P"?"PUSH":e.ats==="W"?"WIN":"LOSS"} · ${g.away} ${g.as}–${g.hs} ${g.home}</span>${e.locked?` <span style="opacity:.6">locked pre-kickoff</span>`:""}` : "";
       if(!e.ats && g.state==="in"){ const cover = (g.hs - g.as) + e.spread; const ok = cover===0 ? null : (cover>0)===e.pickHome;
         grade = ` <span class="grade ${ok==null?"":ok?"W":"L"}">${ok==null?"ON THE NUMBER":ok?"COVERING":"NOT COVERING"} by ${Math.abs(cover).toFixed(1)}</span>`; }
-      const spots = [...e.sa.tags.map(t=>`${g.away}: ${t}`), ...e.sh.tags.map(t=>`${g.home}: ${t}`)];
-      if(e.st) grade += ` <span class="grade ${e.steamWith?"W":"L"}" title="${e.st.label}">${e.steamWith?"steam with you":"steam against you"}</span>`;
       const canLog = !g.final && g.state!=="in";
-      lean = `<div class="lean ${strong?"":"none"}">ATS: ${side} ${num>0?"+":""}${num.toFixed(1)} · covers ${pct(e.pCover)} · EV ${e.evPer100>=0?"+":"−"}$${Math.abs(e.evPer100).toFixed(1)} per $100${strong?"":" (pass)"}${strong?kellyText(e.pCover,-110):""}${grade}${canLog?` <button class="mini" data-log="spread" data-side="${side}" data-line="${num}" data-p="${e.pCover}">Log</button>`:""}</div>`
-        + (spots.length ? `<div class="spots">${spots.map(x=>`<span>${x}</span>`).join("")}</div>` : "")
-        + (e.st ? `<div class="spots steam"><span>${e.st.label}</span></div>` : "");
+      lean = `<div class="lean ${strong?"":"none"}">ATS: ${side} ${num>0?"+":""}${num.toFixed(1)} · covers ${pct(e.pCover)} · EV ${e.evPer100>=0?"+":"−"}$${Math.abs(e.evPer100).toFixed(1)} per $100${strong?"":" (pass)"}${strong?kellyText(e.pCover,-110):""}${grade}${canLog?` <button class="mini" data-log="spread" data-side="${side}" data-line="${num}" data-p="${e.pCover}">Log</button>`:""}</div>`;
     }
     const t = evalTotal(g, w);
     if(t){ const pP = t.pick==="Over" ? t.pOver : 1-t.pOver; const tStrong = pP >= PLAY_MIN;
@@ -636,7 +543,6 @@ function render(){
         <div class="pct ${fav===g.home?"":"dim"}">${pct(e.pHome)}</div>
         <div class="team right">${g.home}<small>${NAMES[g.home]||""} · home</small></div>
       </div>
-      <div class="tv">${g.day} · ${g.time}${g.tv?` · <b>${g.tv}</b>`:""}</div>
       ${scoreLine}${liveWP}
       <div class="bar"><div class="home" style="width:${(e.pHome*100).toFixed(1)}%"></div>${e.pMkt!=null?`<div class="tick" style="left:${((1-e.pMkt)*100).toFixed(1)}%" title="market"></div>`:""}</div>
       <div class="legend"><span>Line: <b>${spreadText(g,e.spread)}</b>${moveText(g,e)}</span><span>${ouText(g)}</span><span>Blend: <b>${fav} by ${Math.abs(e.blend).toFixed(1)}</b></span></div>
@@ -669,7 +575,7 @@ function render(){
           <span class="note">negative = ${g.home} favored</span></div>
         ${e.hasRating?"":`<div class="note">One of these teams has no completed game yet, so the model line is home field only.</div>`}
       </div>`;
-    bindCard(card, ev => { const v = ev.target.value; if(v==="") delete overrides[key]; else overrides[key] = +v; });
+    bindCard(card, ev => { const v = ev.target.value; if(v==="") delete overrides[key]; else overrides[key] = +v; store.set("overrides", overrides); });
     bindLogs(card, g, e.pHome);
     wrap.appendChild(card);
   }
@@ -679,7 +585,7 @@ function render(){
   document.getElementById("record").innerHTML = `Week ${CUR} ATS: <b>${rec.W}–${rec.L}${rec.P?"–"+rec.P:""}</b>${n?"":" · grades as games go final"}` +
     (sN ? ` &nbsp;·&nbsp; Prior weeks: <b>${season.W}–${season.L}${season.P?"–"+season.P:""}</b>` : "");
   document.getElementById("wk").textContent = `Week ${CUR}`;
-  renderLedger(); renderTeasers(); renderSteam(); renderMovers();
+  renderLedger(); renderMovers();
 }
 function moveText(g,e){ if(!e.move) return ""; const toward = e.move<0 ? g.home : g.away;
   const withYou = e.pickHome != null && ((e.move<0) === e.pickHome);
@@ -711,8 +617,6 @@ async function j(u){ const ac = new AbortController(); const t = setTimeout(()=>
     if(r.status===429 || r.status>=500){ backoff = Math.min(8, backoff*2); throw new Error(r.status); }
     if(!r.ok) throw new Error(r.status); backoff = 1; return await r.json(); } finally{ clearTimeout(t); } }
 function parseML(comp, side){ const o = comp.odds?.[0]; const v = o?.[side+"TeamOdds"]?.moneyLine ?? o?.moneyline?.[side]?.close?.odds; const n = parseInt(v); return isNaN(n) ? null : n; }
-const parseTV = comp => { const names = (comp.broadcasts||[]).flatMap(b => b.names||[]); const geo = (comp.geoBroadcasts||[]).filter(g => g.market?.type==="National" || !g.market).map(g => g.media?.shortName).filter(Boolean);
-  const all = [...new Set([...names, ...geo])]; return all.length ? all.join("/") : null; };
 function parseTotal(comp){ const o = comp.odds?.[0]; const v = o?.overUnder ?? o?.total?.over?.close?.line; const n = parseFloat(v); return isNaN(n) ? null : n; }
 function parseSpread(comp, home){
   const o = comp.odds?.[0]; if(!o) return null;
@@ -736,11 +640,6 @@ async function fetchBox(eventId, cache=false){
   const ok = Object.keys(st.ypp).length===2 ? st : null;
   if(cache && ok){ boxCache[eventId] = ok; store.set("box", boxCache); }
   return ok;
-}
-async function loadNextWeek(){
-  try{ if(CUR >= 18) return; const sb = await j(`${ESPN}/scoreboard?seasontype=2&week=${CUR+1}&dates=${YEAR}`); const m = {};
-    for(const ev of sb.events||[]){ const c = ev.competitions[0]; const h = norm(c.competitors.find(x=>x.homeAway==="home").team.abbreviation), a = norm(c.competitors.find(x=>x.homeAway==="away").team.abbreviation); m[h] = a; m[a] = h; }
-    if(Object.keys(m).length) nextOpp = m; }catch(_){}
 }
 async function loadInjuries(){
   try{
@@ -781,8 +680,8 @@ async function loadWeek1(){                       // every game before the curre
         down: sit.downDistanceText || sit.shortDownDistanceText || "",
         liveWP: sit.lastPlay?.probability?.homeWinPercentage ?? null,
         spread: parseSpread(c, home) ?? prev?.spread ?? null, ou: parseTotal(c) ?? prev?.ou ?? null, mlH: parseML(c,"home") ?? prev?.mlH ?? null, mlA: parseML(c,"away") ?? prev?.mlA ?? null,
-        tv: parseTV(c) ?? prev?.tv ?? null, stats: prev?.stats || null, live: prev?.live || null};
-      registerOpen(g);
+        stats: prev?.stats || null, live: prev?.live || null};
+      rememberLines(g); registerOpen(g);
       if(g.final && !g.stats){ if(boxCache[ev.id]) g.stats = boxCache[ev.id]; else boxJobs.push(async () => { g.stats = await fetchBox(ev.id, true); }); }
       else if(state==="in"){ boxJobs.push(async () => { g.live = await fetchBox(ev.id); }); }
       games1.push(g);
@@ -806,14 +705,13 @@ async function loadWeek2(){
       time:d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}),
       spread: parseSpread(c, home) ?? prev?.spread ?? null,   // keep the built-in line if ESPN drops it at kickoff
       ou: parseTotal(c) ?? prev?.ou ?? null, mlH: parseML(c,"home") ?? prev?.mlH ?? null, mlA: parseML(c,"away") ?? prev?.mlA ?? null,
-      tv: parseTV(c) ?? prev?.tv ?? null,
       ts:+d, state, final: state==="post" && !!ev.status?.type?.completed, hs:+h.score, as:+a.score,
       clock: ev.status?.type?.shortDetail || "",
       poss: sit.possession ? (sit.possession===h.id ? home : sit.possession===a.id ? away : null) : null,
       down: sit.downDistanceText || sit.shortDownDistanceText || "",
       liveWP: sit.lastPlay?.probability?.homeWinPercentage ?? null,
       live: prev?.live || null};
-    registerOpen(g);
+    rememberLines(g); registerOpen(g);
     if(state==="in" || state==="post") liveJobs.push(async () => { g.live = await fetchBox(ev.id); });
     games2.push(g);
   }
@@ -843,7 +741,7 @@ function setStatus(){
 }
 async function loadLive(){
   document.getElementById("status").innerHTML = "Fetching from ESPN…";
-  await detectWeek(); await loadWeek1(); await loadWeek2(); await loadInjuries(); await loadNextWeek(); live = true; setStatus(); lineAlerts();
+  await detectWeek(); await loadWeek1(); await loadWeek2(); await loadInjuries(); live = true; setStatus(); lineAlerts();
 }
 /* poll the Week 2 board while games are in progress (or about to kick off) */
 let pollTimer = null;
@@ -906,7 +804,6 @@ async function sharePicks(recap = false){
     c.fillStyle = x.strong ? "#D9532B" : "#5B6778"; c.font = "700 32px 'Barlow Condensed', Impact, sans-serif"; c.fillText(x.cover, 780, y);
     if(x.res){ c.fillStyle = x.res==="✓" ? "#2E7D4F" : x.res==="✗" ? "#D9532B" : "#5B6778"; c.font = "700 30px Barlow, sans-serif"; c.fillText(x.res, 1000, y); } });
   c.fillStyle = "#5B6778"; c.font = "400 22px Barlow, sans-serif"; c.fillText(`Bold = cover chance ≥ ${Math.round(PLAY_MIN*100)}%. Model rates ${week1.filter(g=>g.final).length} games so far. Not betting advice.`, 48, H-36);
-  c.fillStyle = "#1F5A38"; c.font = "700 26px Barlow, sans-serif"; c.textAlign = "right"; c.fillText("Venmo @chadhoot1978", W-48, H-36); c.textAlign = "left";
   const blob = await new Promise(r => cv.toBlob(r, "image/png"));
   const file = new File([blob], `gridiron-edge-week${CUR}${recap?"-recap":""}.png`, {type:"image/png"});
   try{
