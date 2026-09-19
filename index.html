@@ -22,7 +22,14 @@
     --away:#C9B458;       /* away side (gold) */
     --flag:#D9532B;       /* edge flag */
     --card:#FFFFFF;
+    --with-bg:#E3F0E8; --against-bg:#F8E4DC; --alert-bg:#FFF3E9;
     --r:6px;
+  }
+  /* dark palette: applied by the toggle, or by the OS setting when the toggle is on Auto */
+  :root[data-theme="dark"], :root:not([data-theme="light"]).os-dark{
+    --chalk:#121A26; --line:#2C3A4E; --ink:#ECEFF4; --ink-2:#9FABBD; --turf:#3A9A63; --turf-deep:#6CC08F; --away:#D4BF63; --flag:#F0704A; --card:#1B2635;
+    --with-bg:#1E3A2B; --against-bg:#43261E; --alert-bg:#3A2A1C;
+    color-scheme:dark;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:var(--chalk);color:var(--ink);font-family:"Barlow",system-ui,sans-serif;font-size:16px;line-height:1.4;-webkit-text-size-adjust:100%}
@@ -39,6 +46,7 @@
   .seg{display:flex;gap:6px}
   .seg button{flex:1;padding:10px 4px;font-size:13px;border-color:var(--line);background:var(--card);color:var(--ink-2)}
   .seg button.on{background:var(--turf);border-color:var(--turf);color:#fff}
+  button.primary{color:var(--chalk)}
   .seg button:disabled{opacity:.45;cursor:default}
   #learn tr.best td{font-weight:700;color:var(--turf-deep)}
   .btns{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
@@ -48,7 +56,12 @@
   button.primary{background:var(--ink);color:var(--chalk)}
   button:focus-visible,input:focus-visible,.game:focus-visible{outline:3px solid var(--away);outline-offset:2px}
   .hint{font-size:13px;color:var(--ink-2);margin-top:8px}
+  .auth{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)} .auth input{width:100%;font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:var(--r);margin-top:6px;background:var(--card)}
+  .auth .who{font-size:13px;color:var(--ink-2)} .auth .who b{color:var(--ink)} .auth .btns{margin-top:8px}
 
+  .kick{font-family:"Barlow",sans-serif;font-size:12.5px;color:var(--ink-2);margin:2px 0 6px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+  .kick b{font-weight:600;color:var(--ink)}
+  .kick .tv{font-weight:600;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--line);border-radius:6px;padding:1px 6px;white-space:nowrap}
   .day{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:20px;margin:22px 0 8px;display:flex;align-items:baseline;gap:8px}
   .day span{font-family:"Barlow",sans-serif;font-weight:400;font-size:13px;color:var(--ink-2)}
 
@@ -75,7 +88,7 @@
   .legend b{color:var(--ink);font-weight:600}
   .legend span:nth-child(2){text-align:center}
   .move{font-size:11px;font-weight:600;padding:1px 5px;border-radius:3px;margin-left:4px;white-space:nowrap}
-  .move.with{color:var(--turf-deep);background:#E3F0E8} .move.against{color:var(--flag);background:#F8E4DC}
+  .move.with{color:var(--turf-deep);background:var(--with-bg)} .move.against{color:var(--flag);background:var(--against-bg)}
   .lean{margin-top:8px;font-size:14px;font-weight:600;color:var(--flag)}
   .lean.none{color:var(--ink-2);font-weight:400}
 
@@ -92,12 +105,12 @@
 
   .record{font-family:"Barlow Condensed",sans-serif;font-size:20px;font-weight:600;margin-top:16px;color:var(--ink-2)}
   .record b{color:var(--ink);font-weight:800;font-size:24px}
-  .grade{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:3px;font-size:12px;font-weight:700;color:#fff;background:var(--ink-2)}
+  .grade{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:3px;font-size:12px;font-weight:700;color:#fff;background:var(--ink-2)} :root[data-theme="dark"] .grade,:root.os-dark:not([data-theme="light"]) .grade{color:var(--chalk)}
   .grade.W{background:var(--turf)} .grade.L{background:var(--flag)}
   .mini{padding:2px 8px;font-size:12px;border-width:1px;margin-left:6px;vertical-align:middle}
   .ledger-stats{display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0 8px;font-size:14px;color:var(--ink-2)} .ledger-stats b{color:var(--ink)} .pos{color:var(--turf-deep)!important} .neg{color:var(--flag)!important}
   .tablewrap{overflow-x:auto} .tablewrap table{min-width:520px}
-  .alert{margin-top:14px;padding:10px 12px;border-radius:var(--r);background:#FFF3E9;border:1.5px solid var(--flag);font-size:14px} .alert b{color:var(--flag)}
+  .alert{margin-top:14px;padding:10px 12px;border-radius:var(--r);background:var(--alert-bg);border:1.5px solid var(--flag);font-size:14px} .alert b{color:var(--flag)}
   .best .day{display:none}
   .disclaimer{margin-top:24px;font-size:13px;color:var(--ink-2)} .disclaimer a{color:var(--ink)}
   .method{margin-top:28px;padding:14px;border:1.5px solid var(--line);border-radius:var(--r);font-size:14px;background:var(--card)}
@@ -127,6 +140,7 @@
 </style>
 <!-- Vercel Web Analytics: page views only, no cookies; does nothing until Analytics is enabled on the project -->
 <script defer src="/_vercel/insights/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="wrap">
@@ -149,10 +163,12 @@
       <label class="stake">Bankroll $<input id="bank" type="number" min="0" step="50" value="1000" inputmode="decimal" style="width:84px"></label>
       <button class="primary" id="refresh">Refresh from ESPN</button>
       <button id="toggleAll">Expand all</button>
+      <button id="theme" title="Light / dark / follow the device">Theme: Auto</button>
       <button id="share">Share picks</button>
       <button id="best" aria-pressed="false">Best bets</button>
       <button id="recap">Recap</button>
     </div>
+    <div class="auth" id="auth"></div>
     <div class="hint" id="hint">Gold = away, green = home. The dark tick is where the betting line puts it. Tap a game for the numbers.</div>
   </section>
 
@@ -163,7 +179,7 @@
   <section class="method" id="ledger"></section>
   <section class="method" id="movers"></section>
 
-  <p class="disclaimer"><span style="float:right;opacity:.6">v1.7</span>For entertainment. Not betting advice — this is a one-file hobby model, not an edge. If gambling stops being fun: <a href="tel:1-800-426-2537">1-800-GAMBLER</a>.</p>
+  <p class="disclaimer"><span style="float:right;opacity:.6">v1.9</span>For entertainment. Not betting advice — this is a one-file hobby model, not an edge. If gambling stops being fun: <a href="tel:1-800-426-2537">1-800-GAMBLER</a>.</p>
 
   <section class="method" id="learn"></section>
 
@@ -187,10 +203,56 @@ let YEAR = 2026, CUR = 2;                          // season + current week; aut
 const HFA = 1.5, SD = 13.5, LEAN_MIN = 1.5;
 const BREAK_EVEN = 100/210, PLAY_MIN = 0.545;       // -110 break-even is 52.4%; call it a play only with ~2% cushion
 const store = { get(k,d){ try{ const v = localStorage.getItem("ge:"+k); return v==null ? d : JSON.parse(v); }catch(_){ return d; } },
-                set(k,v){ try{ localStorage.setItem("ge:"+k, JSON.stringify(v)); }catch(_){} } };
+                set(k,v){ this.local(k,v); if(SYNC_KEYS.includes(k)) cloud.put(k,v); },
+                local(k,v){ try{ localStorage.setItem("ge:"+k, JSON.stringify(v)); }catch(_){} } };
+/* ---------- accounts & cross-device sync (Supabase) ----------
+   Paste your project's URL and anon key from Supabase → Project Settings → API Keys. The anon key is meant to ship in the page: row-level
+   security on the user_state table (see supabase-setup.sql) means a signed-in user can only read and write their own rows. Leave both
+   blank and the app runs device-only, exactly as before. */
+const SUPA_URL = "https://vhnpiprscrmwfvktixvb.supabase.co", SUPA_KEY = "sb_publishable_te-X3YBsJ7Bc1LfQJyoUuw_yobiOU-s", APP_ID = "ge";
+const SYNC_KEYS = ["bets","betsDeleted","picks","graded","lines","openers","overrides","bank"];   // what follows the account; caches stay on the device
+const cloud = { db:null, user:null, timers:{}, msg:"",
+  ready(){ return !!(SUPA_URL && SUPA_KEY && window.supabase); },
+  async init(){ if(!this.ready()) return; this.db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    const { data:{ session } } = await this.db.auth.getSession(); this.user = session?.user || null;
+    this.db.auth.onAuthStateChange((_e, sess) => { const u = sess?.user || null; if(u?.id !== this.user?.id){ this.user = u; this.msg = ""; renderAuth(); if(u) this.load(); } });
+    renderAuth(); if(this.user) await this.load(); },
+  merge(k, local, remote){                        // union, so nothing either device knows is lost; the cloud copy wins an outright conflict
+    if(remote === undefined) return local; if(local == null) return remote;
+    if(k === "bets"){ const ids = new Set(local.map(b => b.id)); return [...local, ...remote.filter(b => !ids.has(b.id))].sort((a,b) => a.ts - b.ts); }
+    if(k === "betsDeleted") return [...new Set([...local, ...remote])];
+    if(Array.isArray(remote) || typeof remote !== "object") return remote;
+    return {...local, ...remote}; },
+  async load(){ if(!this.user) return;
+    const { data, error } = await this.db.from("user_state").select("key,value").eq("app", APP_ID);
+    if(error){ this.msg = "Sync failed: " + error.message; renderAuth(); return; }
+    const remote = Object.fromEntries((data||[]).map(r => [r.key, r.value]));
+    for(const k of SYNC_KEYS){ const merged = this.merge(k, store.get(k, null), remote[k]); if(merged == null) continue;
+      store.local(k, merged); if(JSON.stringify(merged) !== JSON.stringify(remote[k])) this.put(k, merged); }
+    reloadState(); this.msg = "Synced " + new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}); renderAuth(); },
+  put(k, v){ if(!this.user) return; clearTimeout(this.timers[k]);
+    this.timers[k] = setTimeout(async () => { const { error } = await this.db.from("user_state").upsert({user_id:this.user.id, app:APP_ID, key:k, value:v, updated_at:new Date().toISOString()}, {onConflict:"user_id,app,key"});
+      if(error){ this.msg = "Sync failed: " + error.message; renderAuth(); } }, 600); },
+  async signIn(email, pw){ const { error } = await this.db.auth.signInWithPassword({email, password:pw}); this.msg = error ? error.message : ""; renderAuth(); },
+  async signUp(email, pw){ const { data, error } = await this.db.auth.signUp({email, password:pw}); this.msg = error ? error.message : (data?.session ? "" : "Check your email to confirm the account, then sign in."); renderAuth(); },
+  async signOut(){ await this.db.auth.signOut(); this.user = null; this.msg = ""; renderAuth(); }
+};
+function reloadState(){                           // pull the merged state back into the live variables and redraw
+  betsDeleted = store.get("betsDeleted", []); bets = store.get("bets", []).filter(b => !betsDeleted.includes(b.id));
+  picks = store.get("picks", {}); graded = store.get("graded", {}); lines = store.get("lines", {}); openers = store.get("openers", {}); overrides = store.get("overrides", {});
+  document.getElementById("bank").value = store.get("bank", 1000);
+  [...week1, ...week2].forEach(g => { rememberLines(g); registerOpen(g); }); render(); }
+function renderAuth(){ const box = document.getElementById("auth"); if(!box) return; if(!cloud.ready()){ box.innerHTML = ""; return; }
+  const note = cloud.msg ? `<div class="note">${cloud.msg}</div>` : "";
+  if(cloud.user){ box.innerHTML = `<div class="who">Signed in as <b>${cloud.user.email}</b> · picks and bets follow you to every device</div><div class="btns"><button id="signout">Sign out</button></div>${note}`;
+    box.querySelector("#signout").onclick = () => cloud.signOut(); return; }
+  box.innerHTML = `<div class="who">Sign in to keep your picks and bet log on every device.</div><input id="authEmail" type="email" placeholder="email" autocomplete="username"><input id="authPw" type="password" placeholder="password (8+ characters)" autocomplete="current-password"><div class="btns"><button class="primary" id="signin">Sign in</button><button id="signup">Create account</button></div>${note}`;
+  const em = () => box.querySelector("#authEmail").value.trim(), pw = () => box.querySelector("#authPw").value;
+  box.querySelector("#signin").onclick = () => cloud.signIn(em(), pw()); box.querySelector("#signup").onclick = () => cloud.signUp(em(), pw());
+  box.querySelector("#authPw").addEventListener("keydown", e => { if(e.key === "Enter") cloud.signIn(em(), pw()); }); }
 let K_SHRINK = store.get("k", 2.33);                              // games-played shrink: n/(n+K) → 30% at 1 game, 63% at 4, 81% at 10
 let openers = store.get("openers", {}), graded = store.get("graded", {}), boxCache = store.get("box", {}), picks = store.get("picks", {});   // picks: side + line frozen at kickoff
-let bets = store.get("bets", []), lastSeen = store.get("lastSeen", {}), lines = store.get("lines", {}), injuries = {}, teamIds = {}, bestMode = false, backoff = 1;
+let betsDeleted = store.get("betsDeleted", []), bets = store.get("bets", []).filter(b => !betsDeleted.includes(b.id)), lastSeen = store.get("lastSeen", {}), lines = store.get("lines", {}), injuries = {}, teamIds = {}, bestMode = false, backoff = 1;
 const saveBets = () => store.set("bets", bets);
 const gkey = g => `${YEAR}-w${g.week ?? CUR}-${g.away}@${g.home}`;
 function registerOpen(g){ const k = gkey(g); if(openers[k]==null && g.spread!=null){ openers[k] = g.spread; store.set("openers", openers); } g.open = openers[k] ?? null; }
@@ -453,7 +515,7 @@ function renderLedger(){
     <div class="tablewrap"><table><tr><th>Game</th><th>Bet</th><th>Stake</th><th>CLV</th><th>Result</th><th></th></tr>${bets.slice().reverse().map(row).join("")}</table></div>
     <p class="note">CLV = closing-line value: how many points better your number was than the line at kickoff. Beating the close consistently is the earliest sign a model is real; a W–L record needs hundreds of bets to say the same thing. 1 unit = your bet-size field.</p>`
     : `<p>No bets logged. Tap <b>Log</b> on a play to record it (side, price, stake, time). The log grades itself, tracks profit in dollars and units, and measures closing-line value.</p>`}`;
-  box.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", () => { bets = bets.filter(x => String(x.id) !== b.dataset.del); saveBets(); render(); }));
+  box.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", () => { const id = +b.dataset.del; betsDeleted.push(id); store.set("betsDeleted", betsDeleted); bets = bets.filter(x => x.id !== id); saveBets(); render(); }));
 }
 const blendFor = g => { const w = +document.getElementById("w").value/100; if(g.week === CUR){ return evaluate(g, w).blend; } const sp = overrides["w1"+g.home+g.away] ?? g.spread; return sp==null ? 0 : -sp; };
 const payoutTable = (g, pHome, pickHome, spread) => { const st = stake(); if(!st) return "";
@@ -565,8 +627,9 @@ function render(){
     const inPlay = g.state==="in";
     const scoreLine = (inPlay || g.final) ? `<div class="score ${inPlay?"live":""}">
         <span>${g.poss===g.away?"● ":""}${g.as}</span>
-        <span class="clock">${inPlay ? `LIVE · ${g.clock}${g.down?` · ${g.down}`:""}` : "FINAL"}</span>
+        <span class="clock">${inPlay ? `LIVE · ${g.clock}${g.down?` · ${g.down}`:""}${g.tv?` · ${g.tv}`:""}` : `FINAL${g.tv?` · ${g.tv}`:""}`}</span>
         <span>${g.hs}${g.poss===g.home?" ●":""}</span></div>` : "";
+    const kick = (!inPlay && !g.final) ? `<div class="kick"><span>${g.day.split(",")[0]} <b>${g.time}</b></span><span class="tv">${g.tv || "TV TBA"}</span></div>` : "";
     const liveWP = inPlay && g.liveWP!=null ? `<div class="livewp">ESPN in-game win prob: ${g.home} ${Math.round(g.liveWP*100)}% · ${g.away} ${Math.round((1-g.liveWP)*100)}%</div>` : "";
     card.innerHTML = `
       <div class="top">
@@ -575,7 +638,7 @@ function render(){
         <div class="pct ${fav===g.home?"":"dim"}">${pct(e.pHome)}</div>
         <div class="team right">${g.home}<small>${NAMES[g.home]||""} · home</small></div>
       </div>
-      ${scoreLine}${liveWP}
+      ${kick}${scoreLine}${liveWP}
       <div class="bar"><div class="home" style="width:${(e.pHome*100).toFixed(1)}%"></div>${e.pMkt!=null?`<div class="tick" style="left:${((1-e.pMkt)*100).toFixed(1)}%" title="market"></div>`:""}</div>
       <div class="legend"><span>Line: <b>${spreadText(g,e.spread)}</b>${moveText(g,e)}</span><span>${ouText(g)}</span><span>Blend: <b>${fav} by ${Math.abs(e.blend).toFixed(1)}</b></span></div>
       ${lean}
@@ -691,6 +754,13 @@ async function loadInjuries(){
     if(Object.keys(out).length) injuries = out;
   }catch(_){}
 }
+function tvOf(c){                                   // national TV first, then whatever ESPN lists
+  const geo = (c.geoBroadcasts||[]).filter(b => b.media?.shortName);
+  const nat = geo.filter(b => /national/i.test(b.market?.type||"") && /tv/i.test(b.type?.shortName||"")).map(b => b.media.shortName);
+  const names = (c.broadcasts||[]).flatMap(b => b.names||[]);
+  return [...new Set([...nat, ...names, ...geo.map(b => b.media.shortName)])].slice(0,2).join(" / ");
+}
+const kickTime = (c, d) => c.timeValid === false ? "TBD" : d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
 async function detectWeek(){
   const sb = await j(`${ESPN}/scoreboard`);
   YEAR = sb.season?.year ?? YEAR; let wk = sb.week?.number ?? CUR;
@@ -712,7 +782,7 @@ async function loadWeek1(){                       // every game before the curre
       const prev = week1.find(x=>x.home===home && x.away===away && x.week===wk);
       const g = {week:wk, home, away, hs:+h.score, as:+a.score, final:!!ev.status?.type?.completed, state, ts:+d,
         day:d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}),
-        time:d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}),
+        time:kickTime(c, d), tv: tvOf(c),
         clock: ev.status?.type?.shortDetail || "",
         poss: sit.possession ? (sit.possession===h.id ? home : sit.possession===a.id ? away : null) : null,
         down: sit.downDistanceText || sit.shortDownDistanceText || "",
@@ -741,7 +811,7 @@ async function loadWeek2(){
     const prev = week2.find(x=>x.home===home && x.away===away);
     const g = {week:CUR, home, away,
       day:d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}),
-      time:d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}),
+      time:kickTime(c, d), tv: tvOf(c),
       spread: parseSpread(c, home) ?? prev?.spread ?? null,   // keep the built-in line if ESPN drops it at kickoff
       ou: parseTotal(c) ?? prev?.ou ?? null, mlH: parseML(c,"home") ?? prev?.mlH ?? null, mlA: parseML(c,"away") ?? prev?.mlA ?? null,
       ts:+d, state, final: state==="post" && !!ev.status?.type?.completed, hs:+h.score, as:+a.score,
@@ -800,9 +870,21 @@ function schedulePoll(){
   }, 60000 * backoff);
 }
 document.addEventListener("visibilitychange", () => { if(document.visibilityState==="visible" && live){ Promise.all([week1.some(g=>!g.final)?loadWeek1():null, loadWeek2()]).then(()=>{backtest();ratings=buildRatings();setStatus();render();}).catch(()=>{}); schedulePoll(); } });
+/* ---------- theme ---------- */
+const THEMES = ["auto","light","dark"];
+function applyTheme(){ const t = store.get("theme","auto"), root = document.documentElement;
+  if(t==="auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", t);
+  root.classList.toggle("os-dark", window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const dark = t==="dark" || (t==="auto" && root.classList.contains("os-dark"));
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#121A26" : "#17263A");
+  const b = document.getElementById("theme"); if(b) b.textContent = "Theme: " + t[0].toUpperCase() + t.slice(1); }
+document.getElementById("theme").addEventListener("click", () => { const t = store.get("theme","auto"); store.set("theme", THEMES[(THEMES.indexOf(t)+1) % THEMES.length]); applyTheme(); });
+window.matchMedia?.("(prefers-color-scheme: dark)").addEventListener?.("change", applyTheme);
+applyTheme();
 async function init(){
   week2.forEach(registerOpen); week1.forEach(registerOpen);
   ratings = buildRatings(); render(); backtest();   // draw immediately from built-in data
+  cloud.init().catch(err => { cloud.msg = "Sync unavailable: " + err.message; renderAuth(); });
   try{ await loadLive(); }
   catch(err){ document.getElementById("status").innerHTML = `<b>Built-in data</b><br>Wk 1 finals through Sep 14<br>DraftKings opening lines`; }
   backtest(); ratings = buildRatings(); render(); schedulePoll();
